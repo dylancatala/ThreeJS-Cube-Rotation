@@ -5,14 +5,38 @@ import * as lil from 'lil-gui';
 
 
 
+// Textures
+const loadingManager = new THREE.LoadingManager()
+
+loadingManager.onStart = () => {
+  console.log('onStart')
+}
+
+loadingManager.onLoad = () => {
+  console.log('onLoad')
+}
+
+loadingManager.onProgress = () => {
+  console.log('onProgress')
+}
+
+loadingManager.onError = () => {
+  console.log('onError')
+}
+
+const textureLoader = new THREE.TextureLoader(loadingManager)
+const colorTexture = textureLoader.load('/textures/door/color.jpg')
+const alphaTexture = textureLoader.load('/textures/door/alpha.jpg')
+
+
 // Debug
 const debug = new lil.GUI()
 
 const parameters = {
   spin: () => {
-    gsap.to(mesh.rotation, { duration: 2, x: mesh.rotation.x + Math.PI * 2 })
+    gsap.to(mesh.rotation, { duration: 2.8, x: mesh.rotation.x + Math.PI * 2 })
     gsap.to(mesh.rotation, { duration: 3, y: mesh.rotation.y + Math.PI * 2 })
-    gsap.to(mesh.rotation, { duration: 4, z: mesh.rotation.z + Math.PI * 2 })
+    gsap.to(mesh.rotation, { duration: 2.5, z: mesh.rotation.z + Math.PI * 2 })
   }
 }
 
@@ -50,7 +74,7 @@ const geometry = new THREE.BoxGeometry(1, 1, 1, 4, 4, 4)
 
 
 const material = new THREE.MeshBasicMaterial({
-  color: 'green',
+  map: colorTexture,
   wireframe: true
 })
 const mesh = new THREE.Mesh(geometry, material)
